@@ -34,12 +34,6 @@ def calculate_bid(player,pos,first_moves,second_moves):
     state2=False
     state3=False
     state4=False
-    towin=int(ours/(abs(wewin-pos)))-1
-    if (towin<=0):
-        if (ours>=1):
-            return 1
-        else:
-            return 0
     if ((ours>=theirs) and tie):
         state1=True
     elif ((ours>=theirs) and (not tie)):
@@ -48,25 +42,32 @@ def calculate_bid(player,pos,first_moves,second_moves):
         state3=True
     elif (ours<theirs):
         state4=True
-    if (pos==5):
-        return (ours/4)
     if (pos==onetowin and state1):
         return theirs
     elif (pos==onetowin and state2):
         return theirs+1
     elif (pos==wewin):
         return ours
+    wewindistance=abs(wewin-pos+1)
+    theywindistance=abs(onetowin-pos+1)
+    towin=int(ours/(abs(wewin-pos)+1))-1
+    theywin=int(theirs/(abs(onetowin-pos)+1))-1
+    if (towin<=0):
+        if (ours>=1):
+            return 1
+        else:
+            return 0
+    if (towin>theirs):
+        return towin
+    if (pos==5):
+        return (ours/5)
     if (pos==wewin and state1):
         return theirs
     elif (pos==wewin and state2):
         return theirs+1
     elif (pos==wewin):
         return ours
-    x=random.randint(10, 20)
-    if (x>=ours):
-        return towin
-    else:
-        return x
+    return towin
 # Tail starts here
 #gets the id of the player
 player = input()
