@@ -22,12 +22,16 @@ def calculate_bid(player,pos,first_moves,second_moves):
         theirs=player2
         onetowin=9
         wewin=1
+        mymoves=first_moves
+        theirmoves=second_moves
     else:
         theirs=player1
         ours=player2
         tie=(not tie)
         onetowin=1
         wewin=9
+        mymoves=second_moves
+        theirmoves=first_moves
     if (ours==0):
         return 0
     state1=False
@@ -50,8 +54,8 @@ def calculate_bid(player,pos,first_moves,second_moves):
         return ours
     wewindistance=abs(wewin-pos+1)
     theywindistance=abs(onetowin-pos+1)
-    towin=int(ours/(abs(wewin-pos)+1))-1
-    theywin=int(theirs/(abs(onetowin-pos)+1))-1
+    towin=int(ours/(abs(wewin-pos)+1))
+    theywin=int(theirs/(abs(onetowin-pos)+1))        
     if (towin<=0):
         if (ours>=1):
             return 1
@@ -59,14 +63,16 @@ def calculate_bid(player,pos,first_moves,second_moves):
             return 0
     if (towin>theirs):
         return towin
-    if (pos==5):
-        return (ours/5)
     if (pos==wewin and state1):
         return theirs
     elif (pos==wewin and state2):
         return theirs+1
     elif (pos==wewin):
         return ours
+    if (len(theirmoves)>2 and theirmoves[len(theirmoves)-1]==1 and theirmoves[len(theirmoves)-2]==1):
+        return 1
+    if(ours+10<theirs and ours>=theywin):
+        return theywin
     return towin
 # Tail starts here
 #gets the id of the player
